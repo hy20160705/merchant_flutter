@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--Android启动页-->
+    <style name="LaunchTheme" parent="@android:style/Theme.Translucent.NoTitleBar.Fullscreen">
+        <!-- Show a splash screen on the activity. Automatically removed when
+             Flutter draws its first frame -->
+        <item name="android:windowBackground">@drawable/launch_background</item>
+    </style>
+    <!--Flutter 加载完成后的主题-->
+    <style name="NormalTheme" parent="@android:style/Theme.Black.NoTitleBar">
+        <item name="android:windowBackground">@drawable/normal_background</item>
+    </style>
+</resources>
