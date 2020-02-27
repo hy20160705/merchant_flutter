@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:merchant_flutter/ui/splash_screen.dart';
 import 'package:merchant_flutter/utils/utils.dart';
+import 'package:merchant_flutter/ui/home_screen.dart';
 
 class MainScreen extends StatefulWidget {
   @override
@@ -21,7 +22,7 @@ class MainScreenState extends State<MainScreen>
 
   /// 五个Tabs的内容
   var pages = <Widget>[
-    SplashScreen(),
+    HomeScreen(),
     SplashScreen(),
     SplashScreen(),
     SplashScreen(),
@@ -84,9 +85,11 @@ class MainScreenState extends State<MainScreen>
               title: Text(bottomBarTitles[3]),
             ),
           ],
-          type: BottomNavigationBarType.fixed, // 设置显示模式 平分
+          type: BottomNavigationBarType.fixed,
+          // 设置显示模式 平分
           currentIndex: _selectedIndex,
-          onTap: _onItemTapped, // 当前选中项的索引
+          onTap: _onItemTapped,
+          // 当前选中项的索引
           //设置默认颜色
           selectedItemColor: Color(0xff3f4251),
           unselectedItemColor: Color(0xff999999),

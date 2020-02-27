@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:merchant_flutter/res/colors.dart';
 
 class ThemeUtils {
   /// 默认主题色
-  static const Color defaultColor = Colors.redAccent;
+  static const Color defaultColor = Colours.color_3F4251;
 
   /// 当前的主题色
   static Color currentThemeColor = defaultColor;
