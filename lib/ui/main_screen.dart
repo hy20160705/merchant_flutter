@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:merchant_flutter/ui/splash_screen.dart';
 import 'package:merchant_flutter/utils/utils.dart';
 import 'package:merchant_flutter/ui/home_screen.dart';
+import 'package:merchant_flutter/ui/enterprise_screen.dart';
 
 class MainScreen extends StatefulWidget {
   @override
@@ -23,7 +24,7 @@ class MainScreenState extends State<MainScreen>
   /// 五个Tabs的内容
   var pages = <Widget>[
     HomeScreen(),
-    SplashScreen(),
+    EnterpriseScreen(),
     SplashScreen(),
     SplashScreen(),
   ];

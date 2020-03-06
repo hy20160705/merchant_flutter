@@ -33,7 +33,6 @@ class HomeScreenState extends State<HomeScreen> {
         enablePullUp: false,
         enablePullDown: true,
         controller: _refreshController,
-        header: MaterialClassicHeader(),
         onRefresh: getFirstPageInfo,
         child: addContentView(context),
       ),
@@ -229,6 +228,7 @@ class HomeScreenState extends State<HomeScreen> {
     );
   }
 
+  /// 构建banner
   Widget _buildBannerWidget() {
     return Offstage(
       offstage: _bannerList.length == 0,
