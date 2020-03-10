@@ -17,7 +17,8 @@ class EnterPriseScreenItem extends StatefulWidget {
   EnterPriseScreenItem(this.type);
 }
 
-class EnterPriseScreenItemState extends State<EnterPriseScreenItem> {
+class EnterPriseScreenItemState extends State<EnterPriseScreenItem>
+    with AutomaticKeepAliveClientMixin {
   RefreshController _refreshController =
       RefreshController(initialRefresh: false);
   List<Enterprise> data = new List();
@@ -28,19 +29,23 @@ class EnterPriseScreenItemState extends State<EnterPriseScreenItem> {
     initData();
   }
 
+  /// 防止页面切换导致重绘页面
+  @override
+  bool get wantKeepAlive => true;
+
   void initData() {
-//    for (var i; i < (10); i++) {
-    data.add(new Enterprise(
-        shopId: 1,
-        shopAddress: '贵州省' + '1',
-        shopName: '何勇小店+i',
-        shopImage: '',
-        todaySalesVolume: '80.00',
-        businessTypeName: '哈哈哈' + '1',
-        contactsName: '何勇' + '1',
-        ifOrder: false,
-        mobile: '15751004145'));
-//    }
+    for (var i = 0; i < (10); i++) {
+      data.add(new Enterprise(
+          shopId: 1,
+          shopAddress: '贵州省$i',
+          shopName: '何勇小店$i',
+          shopImage: '',
+          todaySalesVolume: '80.0$i',
+          businessTypeName: '哈哈哈$i',
+          contactsName: '何勇i',
+          ifOrder: false,
+          mobile: '15751004145$i'));
+    }
   }
 
   @override
@@ -72,11 +77,13 @@ class EnterPriseScreenItemState extends State<EnterPriseScreenItem> {
   Widget _itemView(BuildContext context, int index) {
     Enterprise item = data[index];
     return Card(
+        elevation: 0.0,
         color: Colors.white,
         margin: EdgeInsets.only(left: 10.0, right: 10.0, top: 10.0),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.all(Radius.circular(5.0)),
         ),
+        clipBehavior: Clip.antiAlias,
         child: Container(
             height: 108.0,
             padding: EdgeInsets.all(10.0),
@@ -87,7 +94,7 @@ class EnterPriseScreenItemState extends State<EnterPriseScreenItem> {
                 mainAxisSize: MainAxisSize.max,
                 children: <Widget>[
                   ImageWidget(
-                    url:item.shopImage,
+                    url: item.shopImage,
                     w: 87.0,
                     h: 87.8,
                     defImagePath: Utils.getImgPath('ic_default_128'),
@@ -115,6 +122,7 @@ class EnterPriseScreenItemState extends State<EnterPriseScreenItem> {
                             Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: <Widget>[
+                                // 标签+联系人
                                 Row(
                                   children: <Widget>[
                                     Container(
@@ -149,22 +157,12 @@ class EnterPriseScreenItemState extends State<EnterPriseScreenItem> {
                                   ],
                                 ),
                                 Container(
-                                  margin: EdgeInsets.only(top: 6.0),
-                                  child: RichText(
-                                    text: TextSpan(
-                                        text: "今日销售额:",
+                                    margin: EdgeInsets.only(top: 6.0),
+                                    child: Text(
+                                        '今日销售额: ' + item.todaySalesVolume,
                                         style: TextStyle(
                                             color: Colours.color_999,
-                                            fontSize: 12.0),
-                                        children: <TextSpan>[
-                                          TextSpan(
-                                              text: item.todaySalesVolume,
-                                              style: TextStyle(
-                                                  color: Colours.color_999,
-                                                  fontSize: 12.0))
-                                        ]),
-                                  ),
-                                ),
+                                            fontSize: 12.0))),
                                 Container(
                                   margin: EdgeInsets.only(top: 6.0),
                                   child: Text(item.shopAddress),

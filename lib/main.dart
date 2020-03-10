@@ -8,6 +8,9 @@ import 'package:merchant_flutter/ui/main_screen.dart';
 import 'package:merchant_flutter/utils/theme_util.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:merchant_flutter/widgets/refresh_helper.dart';
+import 'package:merchant_flutter/ui/login_screen.dart';
+
+import 'net/dio_manager.dart';
 
 /// 在拿不到context的地方通过navigatorKey进行路由跳转：
 /// https://stackoverflow.com/questions/52962112/how-to-navigate-without-context-in-flutter-app
@@ -40,6 +43,7 @@ class MyAppState extends State<MyNewApp> {
   @override
   void initState() {
     super.initState();
+    _initAsync();
     themeData = ThemeUtils.getThemeData();
   }
 
@@ -52,6 +56,8 @@ class MyAppState extends State<MyNewApp> {
         headerTriggerDistance: 80.0,
         // 可以通过惯性滑动触发加载更多
         enableBallisticLoad: true,
+        //这个属性不兼容PageView和TabBarView,如果你特别需要TabBarView左右滑动,你需要把它设置为true
+        enableScrollWhenRefreshCompleted: true,
         child: MaterialApp(
           title: AppConfig.appName,
           // 去掉debug图标
@@ -60,7 +66,11 @@ class MyAppState extends State<MyNewApp> {
           routes: Router.generateRoute(),
           navigatorKey: navigatorKey,
           theme: themeData,
-          home: new MainScreen(), // 启动页
+          home: new LoginScreen(), // 启动页
         ));
+  }
+
+  void _initAsync() async {
+    await DioManager.init();
   }
 }

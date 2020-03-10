@@ -4,14 +4,19 @@
 
 class BaseModel<T> {
   String msg;
-  String code;
+  int code;
   T data;
-  static BaseModel fromMap(Map<String, dynamic> map) {
-    if (map == null) return null;
-    BaseModel baseModelBean = BaseModel();
-    baseModelBean.msg = map['msg'];
-    baseModelBean.code = map['code'];
-    baseModelBean.data = map['data'];
-    return baseModelBean;
+
+  BaseModel({this.msg, this.code, this.data});
+
+  BaseModel.fromMap(Map<String, dynamic> map) {
+    msg = map['msg'];
+    code = map['code'];
+    data = map['data'];
+  }
+
+  @override
+  String toString() {
+    return 'BaseModel{msg: $msg, code: $code, data: $data}';
   }
 }

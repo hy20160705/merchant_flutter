@@ -14,3 +14,17 @@ A few resources to get you started if this is your first Flutter project:
 For help getting started with Flutter, view our
 [online documentation](https://flutter.dev/docs), which offers tutorials,
 samples, guidance on mobile development, and a full API reference.
+#### 工具类
+* 颜色工具类(资源)在 ../res/colors.dart
+```
+    Colours.color_333
+```
+* 获取本地图片工具类在 ../utils/utils.dart
+```
+    Utils.getImgPath('ic_luancher');
+    Utils.getImgPath('ic_luancher','png');
+```
+#### TODO
+- [ ] 首页的ViewPage圆角处理
+- [ ] 网络请求库加入
+
