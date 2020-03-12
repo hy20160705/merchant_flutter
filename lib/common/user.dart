@@ -18,7 +18,7 @@ class User {
   void saveUserInfo(UserModel _userModel, Response response) {
     List<String> cookies = response.headers["set-cookie"];
     cookie = cookies;
-    userName = _userModel.salerName;
+    userName = _userModel.data.salerName;
     saveInfo();
   }
 

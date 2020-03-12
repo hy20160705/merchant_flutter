@@ -1,26 +1,49 @@
-/// salerName : "名字"
-/// inviteCode : "Duis 邀请码"
-/// photoPath : "头像"
-/// partition : "区域/地址"
-
 class UserModel {
+  String msg;
+  int code;
+  UserInfo data;
+
+  UserModel({this.msg, this.code, this.data});
+
+  UserModel.fromJson(Map<String, dynamic> json) {    
+    this.msg = json['msg'];
+    this.code = json['code'];
+    this.data = json['data'] != null ? UserInfo.fromJson(json['data']) : null;
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['msg'] = this.msg;
+    data['code'] = this.code;
+    if (this.data != null) {
+      data['data'] = this.data.toJson();
+    }
+    return data;
+  }
+
+}
+
+class UserInfo {
   String salerName;
   String inviteCode;
   String photoPath;
   String partition;
 
-  static UserModel fromMap(Map<String, dynamic> map) {
-    if (map == null) return null;
-    UserModel userModelBean = UserModel();
-    userModelBean.salerName = map['salerName'];
-    userModelBean.inviteCode = map['inviteCode'];
-    userModelBean.photoPath = map['photoPath'];
-    userModelBean.partition = map['partition'];
-    return userModelBean;
+  UserInfo({this.salerName, this.inviteCode, this.photoPath, this.partition});
+
+  UserInfo.fromJson(Map<String, dynamic> json) {    
+    this.salerName = json['salerName'];
+    this.inviteCode = json['inviteCode'];
+    this.photoPath = json['photoPath'];
+    this.partition = json['partition'];
   }
 
-  @override
-  String toString() {
-    return 'UserModel{salerName: $salerName, inviteCode: $inviteCode, photoPath: $photoPath, partition: $partition}';
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['salerName'] = this.salerName;
+    data['inviteCode'] = this.inviteCode;
+    data['photoPath'] = this.photoPath;
+    data['partition'] = this.partition;
+    return data;
   }
 }

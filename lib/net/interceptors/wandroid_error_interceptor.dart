@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:dio/dio.dart';
+import 'package:merchant_flutter/common/common.dart';
 import 'package:merchant_flutter/common/router_config.dart';
 import 'package:merchant_flutter/common/user.dart';
 import 'package:merchant_flutter/main.dart';
@@ -13,6 +14,10 @@ import '../index.dart';
 class WanAndroidErrorInterceptor extends InterceptorsWrapper {
   @override
   onRequest(RequestOptions options) async {
+    String token=SPUtil.getString(Constants.TOKEN_KEY);
+    if(token.isNotEmpty){
+      options.headers['token']=token;
+    }
     return options;
   }
 
@@ -31,13 +36,13 @@ class WanAndroidErrorInterceptor extends InterceptorsWrapper {
       data = json.decode(data);
     }
     if (data is Map) {
-      int errorCode =
-          data['errorCode'] ?? 0; // 表示如果data['errorCode']为空的话把 0赋值给errorCode
-      String errorMsg = data['errorMsg'] ?? '请求失败[$errorCode]';
-      if (errorCode == 0) {
+      int code = data['code'] ??
+          Constants.STATUS_SUCCESS; // 表示如果data['errorCode']为空的话把 0赋值给errorCode
+      String errorMsg = data['msg'] ?? '请求失败[$code]';
+      if (code == Constants.STATUS_SUCCESS) {
         // 正常
         return response;
-      } else if (errorCode == -1001 /*未登录错误码*/) {
+      } else if (code == Constants.UN_LOGIN /*未登录错误码*/) {
         User().clearUserInfo();
         dio.clear(); // 调用拦截器的clear()方法来清空等待队列。
         SPUtil.clear();

@@ -48,7 +48,7 @@ class LoadingDialogState extends State<LoadingDialog> {
             height: 120.0,
             child: new Container(
               decoration: ShapeDecoration(
-                color: ThemeUtils.dark ? Color(0xba000000) : Color(0xffffffff),
+                color: ThemeUtils.dark ? Color(0xba000000) : Color(0x22ffffff),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.all(
                     Radius.circular(8.0),

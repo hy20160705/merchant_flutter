@@ -42,7 +42,7 @@ class LogInterceptors extends InterceptorsWrapper {
       printKV('headers', stringBuffer.toString());
       stringBuffer.clear();
 
-      // printLong('response: ' + response.toString());
+      printLong('response: ' + response.toString());
 
       print('└—————————————————————End Response———————————————————————\n\n');
     }

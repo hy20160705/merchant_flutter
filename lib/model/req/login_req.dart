@@ -24,4 +24,17 @@ class LoginRep {
       this.deviceToken,
       this.hostSerial,
       this.deviceVersion});
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['username'] = this.username;
+    data['password'] = this.password;
+    data['deviceType'] = this.deviceType;
+    data['deviceToken'] = this.deviceToken;
+    data['hostSerial'] = this.hostSerial;
+    data['deviceVersion'] = this.deviceVersion;
+    return data;
+  }
+
+
 }

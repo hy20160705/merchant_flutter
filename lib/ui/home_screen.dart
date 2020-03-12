@@ -29,14 +29,15 @@ class HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
-      body: SmartRefresher(
+        body: Scrollbar(
+      child: SmartRefresher(
         enablePullUp: false,
         enablePullDown: true,
         controller: _refreshController,
         onRefresh: getFirstPageInfo,
         child: addContentView(context),
       ),
-    );
+    ));
   }
 
   Widget addContentView(BuildContext context) {
@@ -115,20 +116,22 @@ class HomeScreenState extends State<HomeScreen> {
                       borderRadius: BorderRadius.circular(5),
                       color: Colors.white),
                   child: ListTile(
-                    title: Row(
-                      children: <Widget>[
-                        Image.asset(
-                          Utils.getImgPath('ic_income_detail'),
-                          width: 24,
-                          height: 24,
-                        ),
-                        Padding(
-                          padding: EdgeInsets.only(left: 10),
-                          child: Text('收益明细',
-                              style: new TextStyle(
-                                  color: Colours.color_333, fontSize: 16)),
-                        ),
-                      ],
+                    title: Container(
+                      child: Row(
+                        children: <Widget>[
+                          Image.asset(
+                            Utils.getImgPath('ic_income_detail'),
+                            width: 24,
+                            height: 24,
+                          ),
+                          Padding(
+                            padding: EdgeInsets.only(left: 10),
+                            child: Text('收益明细',
+                                style: new TextStyle(
+                                    color: Colours.color_333, fontSize: 16)),
+                          ),
+                        ],
+                      ),
                     ),
                     trailing: Image.asset(
                       Utils.getImgPath('ic_next_step'),
@@ -171,7 +174,10 @@ class HomeScreenState extends State<HomeScreen> {
                 ),
                 Container(
                   height: 200,
-                  decoration: BoxDecoration(borderRadius: BorderRadius.circular(10),color: Colors.red,),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10),
+                    color: Colors.red,
+                  ),
                   child: _buildBannerWidget(),
                 )
               ],

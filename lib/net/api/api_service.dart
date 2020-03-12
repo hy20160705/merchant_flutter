@@ -11,30 +11,37 @@ ApiService _apiService = ApiService();
 ApiService get apiService => _apiService;
 
 class ApiService {
-  
-
   ///登录
   void login(
       LoginRep loginRep, Function callback, Function errorCallback) async {
-    dio.post(Apis.LOGIN, data: loginRep).then((response) {
-      callback(BaseModel<UserModel>.fromMap(response.data));
+    FormData data = FormData.fromMap(loginRep.toJson());
+    dio.post(Apis.LOGIN, data: data).then((response) {
+      callback(BaseModel<String>.fromMap(response.data));
     }).catchError((onError) {
       errorCallback(onError);
     });
   }
 
   /// 获取手机验证码
-  void getVerifyCode(String mobile, String model, Function successCallback,
+  void getVerifyCode(String mobile, String module, Function successCallback,
       Function errorCallback) async {
     var params = {
       'mobile': mobile,
-      'model': model,
+      'module': module,
     };
-    FormData data = FormData.fromMap({'mobile': mobile, 'model': model});
     dio.post(Apis.GET_VERIFY_CODE, data: params).then((response) {
       successCallback(BaseModel<bool>.fromMap(response.data));
     }).catchError((onError) {
       errorCallback(onError);
+    });
+  }
+
+  /// 获取用户信息
+  void getUserInfo(Function onSuccess, Function onFailed) async {
+    dio.post(Apis.GET_USER_INFO).then((response) {
+      onSuccess(UserModel.fromJson(response.data));
+    }).catchError((error) {
+      onFailed(error);
     });
   }
 

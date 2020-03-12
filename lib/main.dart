@@ -5,6 +5,7 @@ import 'package:flutter/services.dart';
 import 'package:merchant_flutter/common/common.dart';
 import 'package:merchant_flutter/common/router_config.dart';
 import 'package:merchant_flutter/ui/main_screen.dart';
+import 'package:merchant_flutter/utils/sp_util.dart';
 import 'package:merchant_flutter/utils/theme_util.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:merchant_flutter/widgets/refresh_helper.dart';
@@ -18,6 +19,7 @@ final GlobalKey<NavigatorState> navigatorKey = new GlobalKey<NavigatorState>();
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await SPUtil.getInstance();
   runApp(MyNewApp());
 
   if (Platform.isAndroid) {
@@ -66,11 +68,22 @@ class MyAppState extends State<MyNewApp> {
           routes: Router.generateRoute(),
           navigatorKey: navigatorKey,
           theme: themeData,
-          home: new LoginScreen(), // 启动页
+          home: SPUtil.getString(Constants.TOKEN_KEY).isEmpty
+              ? LoginScreen()
+              : MainScreen(), // 启动页
         ));
   }
 
   void _initAsync() async {
     await DioManager.init();
   }
+
+//  Widget _getHome() {
+//    var i = 0;
+//    debugPrint('Token===>${SPUtil.getString(Constants.TOKEN_KEY)}');
+//
+//    return SPUtil.getString(Constants.TOKEN_KEY).isEmpty
+//        ? LoginScreen()
+//        : MainScreen();
+//  }
 }

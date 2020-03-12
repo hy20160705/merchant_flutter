@@ -24,6 +24,8 @@ class Router {
   static Map<String, WidgetBuilder> generateRoute() {
     Map<String, WidgetBuilder> routes = {
       RouterName.splash: (context) => new SplashScreen(),
+//      RouterName.login: (context) => new LoginScreen(),
+      RouterName.main: (context) => new MainScreen(),
     };
     return routes;
   }
