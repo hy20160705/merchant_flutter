@@ -1,6 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:merchant_flutter/model/home_info_model.dart';
+import 'package:merchant_flutter/net/api/api_service.dart';
 import 'package:merchant_flutter/res/colors.dart';
+import 'package:merchant_flutter/utils/route_util.dart';
 import 'package:merchant_flutter/utils/utils.dart';
+import 'package:merchant_flutter/widgets/loading_dialog.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:merchant_flutter/widgets/refresh_helper.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
@@ -13,28 +18,39 @@ class HomeScreen extends StatefulWidget {
   }
 }
 
-class HomeScreenState extends State<HomeScreen> {
+class HomeScreenState extends State<HomeScreen>
+    with AutomaticKeepAliveClientMixin {
   RefreshController _refreshController =
       new RefreshController(initialRefresh: false);
 
   List<String> _bannerList = new List();
+  bool _isFirst = true;
+  HomeInfo _homeInfo = new HomeInfo();
 
   @override
   void initState() {
     super.initState();
     _bannerList.add(
         'https://ss3.bdstatic.com/70cFv8Sh_Q1YnxGkpoWK1HF6hhy/it/u=1830914723,3154965800&fm=26&gp=0.jpg');
+//    _getFirstPageInfo();
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    _getFirstPageInfo();
   }
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     return new Scaffold(
         body: Scrollbar(
       child: SmartRefresher(
         enablePullUp: false,
         enablePullDown: true,
         controller: _refreshController,
-        onRefresh: getFirstPageInfo,
+        onRefresh: _getFirstPageInfo,
         child: addContentView(context),
       ),
     ));
@@ -49,7 +65,9 @@ class HomeScreenState extends State<HomeScreen> {
             children: <Widget>[
               _buildColumn(
                   topStr: '今日下单门店数',
-                  bottomStr: '40',
+                  bottomStr: _homeInfo == null
+                      ? ''
+                      : _homeInfo.todayOrderMerchantCount.toString(),
                   topSize: 16,
                   startBottomSize: 56,
                   endBottomSize: 32,
@@ -57,7 +75,8 @@ class HomeScreenState extends State<HomeScreen> {
                   bottomColor: Colours.color_FEC791),
               _buildColumn(
                   topStr: '今日销售额(元)',
-                  bottomStr: '40.00',
+                  bottomStr:
+                      _homeInfo == null ? '' : _homeInfo.todaySalesVolume,
                   topSize: 16,
                   startBottomSize: 56,
                   endBottomSize: 32,
@@ -83,7 +102,9 @@ class HomeScreenState extends State<HomeScreen> {
                     children: <Widget>[
                       _buildColumn(
                           topStr: '月预计收益',
-                          bottomStr: '40.00',
+                          bottomStr: _homeInfo == null
+                              ? ''
+                              : _homeInfo.monthlyProjectedRevenue,
                           topSize: 12,
                           startBottomSize: 24,
                           endBottomSize: 14,
@@ -91,7 +112,9 @@ class HomeScreenState extends State<HomeScreen> {
                           bottomColor: Colours.color_333),
                       _buildColumn(
                           topStr: '月累计销售额(元)',
-                          bottomStr: '40.01',
+                          bottomStr: _homeInfo == null
+                              ? ''
+                              : _homeInfo.monthlySalesVolume,
                           topSize: 12,
                           startBottomSize: 24,
                           endBottomSize: 14,
@@ -99,7 +122,9 @@ class HomeScreenState extends State<HomeScreen> {
                           bottomColor: Colours.color_333),
                       _buildColumn(
                           topStr: '昨日销售额(元)',
-                          bottomStr: '40.02',
+                          bottomStr: _homeInfo == null
+                              ? ''
+                              : _homeInfo.yesterdaySalesVolume,
                           topSize: 12,
                           startBottomSize: 24,
                           endBottomSize: 14,
@@ -117,6 +142,7 @@ class HomeScreenState extends State<HomeScreen> {
                       color: Colors.white),
                   child: ListTile(
                     title: Container(
+                      width: 120,
                       child: Row(
                         children: <Widget>[
                           Image.asset(
@@ -197,7 +223,7 @@ class HomeScreenState extends State<HomeScreen> {
       Color bottomColor}) {
     String startBottom;
     String endBottom;
-    if (bottomStr.contains('.')) {
+    if (bottomStr != null && bottomStr.contains('.')) {
       startBottom = bottomStr.substring(0, bottomStr.indexOf('.'));
       endBottom = bottomStr.substring(bottomStr.indexOf('.'));
     } else {
@@ -271,13 +297,52 @@ class HomeScreenState extends State<HomeScreen> {
   /// 跳转到富豪榜
   goToRichPeople() {}
 
-  // 获取首页数据
-  void getFirstPageInfo() {
-    Future.delayed(Duration(seconds: 2),
-        () => {_refreshController.refreshCompleted(resetFooterState: true)});
+  /// 获取首页数据
+  void _getFirstPageInfo() {
+    if (_isFirst) {
+      _showLoading(context);
+      _isFirst = false;
+    }
+    apiService.getHomeInfo((HomeInfoModel homeInfoModel) {
+      _dismissLoading(context);
+      _refreshController.refreshCompleted();
+      setState(() {
+        _homeInfo = homeInfoModel.data;
+        debugPrint('homeInfoModel{$_homeInfo}');
+      });
+    }, (error) {
+      _refreshController.refreshFailed();
+      _dismissLoading(context);
+    });
   }
 
   Widget itemView(BuildContext context, int index) {
     return addContentView(context);
   }
+
+  /// 显示Loading
+  _showLoading(BuildContext context) {
+    Future.delayed(Duration.zero, () {
+      showDialog(
+          context: context,
+          barrierDismissible: false,
+          builder: (_) {
+            return new LoadingDialog(
+              outsideDismiss: false,
+              loadingText: "正在登陆...",
+            );
+          });
+    });
+  }
+
+  /// 隐藏Loading
+  _dismissLoading(BuildContext context) {
+    // 判断时候是当前页面
+    if (!ModalRoute.of(context).isCurrent) {
+      Navigator.of(context).pop();
+    }
+  }
+
+  @override
+  bool get wantKeepAlive => true;
 }

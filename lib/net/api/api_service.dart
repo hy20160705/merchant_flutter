@@ -1,6 +1,9 @@
 import 'package:dio/dio.dart';
+import 'package:merchant_flutter/model/req/shop_req.dart';
+import 'package:merchant_flutter/model/req/shop_search_req.dart';
+import 'package:merchant_flutter/model/shop_list_model.dart';
 import 'package:merchant_flutter/net/api/apis.dart';
-import 'package:merchant_flutter/model/home_banner_model.dart';
+import 'package:merchant_flutter/model/home_info_model.dart';
 import 'package:merchant_flutter/net/index.dart';
 import 'package:merchant_flutter/model/req/login_req.dart';
 import 'package:merchant_flutter/model/base_model.dart';
@@ -46,11 +49,30 @@ class ApiService {
   }
 
   ///  获取首页数据
-  void getBannerList(Function callback, Function errorCallback) async {
+  void getHomeInfo(Function onSuccess, Function onFailed) async {
     dio.post(Apis.GET_FIRST_PAGE_INFO).then((response) {
-      callback(HomeBanner.fromMap(response.data));
+      onSuccess(HomeInfoModel.fromJson(response.data));
     }).catchError((onError) {
-      errorCallback(onError);
+      onFailed(onError);
+    });
+  }
+
+  ///  搜索商户列表（全部、ID\名称）
+  void getMyShopsBySearch(
+      ShopSearchReq req, Function onSuccess, Function onFailed) async {
+    dio.post(Apis.MY_SHOPS_SEARCH, data: req).then((response) {
+      onSuccess(ShopListModel.fromJson(response.data));
+    }).catchError((onError) {
+      onFailed(onError);
+    });
+  }
+
+  ///  获取商户列表（今日下单、未下单）
+  void getMyShops(ShopReq req, Function onSuccess, Function onFailed) async {
+    dio.post(Apis.MY_SHOPS_LIST, data: req).then((response) {
+      onSuccess(ShopListModel.fromJson(response.data));
+    }).catchError((onError) {
+      onFailed(onError);
     });
   }
 }

@@ -10,15 +10,21 @@ class EnterpriseScreen extends StatefulWidget {
 }
 
 class EnterpriseScreenState extends State<EnterpriseScreen>
-    with SingleTickerProviderStateMixin {
-  TabController mController;
+    with TickerProviderStateMixin {
+  TabController _tabController;
   List<Tab> tabList = new List();
 
   @override
   void initState() {
     super.initState();
     initData();
-    mController = TabController(length: tabList.length, vsync: this);
+    _tabController = TabController(length: tabList.length, vsync: this);
+  }
+
+  @override
+  void dispose() {
+    _tabController.dispose();
+    super.dispose();
   }
 
   @override
@@ -49,7 +55,7 @@ class EnterpriseScreenState extends State<EnterpriseScreen>
                   )),
               TabBar(
                 isScrollable: false,
-                controller: mController,
+                controller: _tabController,
                 tabs: tabList,
                 indicatorSize: TabBarIndicatorSize.tab,
               ),
@@ -60,13 +66,14 @@ class EnterpriseScreenState extends State<EnterpriseScreen>
           ),
       Expanded(
         child: TabBarView(
-          controller: mController,
-          children: tabList.map((item) {
+          controller: _tabController,
+          children:
+          tabList.map((item) {
             return Stack(
               children: <Widget>[
-                EnterPriseScreenItem(1),
-                EnterPriseScreenItem(2),
-                EnterPriseScreenItem(3),
+                EnterPriseScreenItem(item.key.toString()),
+//                EnterPriseScreenItem(2),
+//                EnterPriseScreenItem(3),
               ],
             );
           }).toList(),
@@ -78,12 +85,15 @@ class EnterpriseScreenState extends State<EnterpriseScreen>
   void initData() {
     tabList = [
       new Tab(
+        key: Key('0'),
         text: '全部',
       ),
       new Tab(
+        key: Key('1'),
         text: '今日下单',
       ),
       new Tab(
+        key: Key('2'),
         text: '今日未下单',
       ),
     ];

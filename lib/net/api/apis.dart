@@ -18,4 +18,8 @@ class Apis {
 
   /// 首页bd招募banner
   static const String ET_BANNER_LIST = "saler/banner/list";
+  /// 搜索商户列表
+  static const String MY_SHOPS_SEARCH = "saler/my-shops/search";
+  /// 获取商户列表（今日下单、未下单）
+  static const String MY_SHOPS_LIST = "saler/my-shops/list";
 }

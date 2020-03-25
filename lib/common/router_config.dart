@@ -2,6 +2,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:merchant_flutter/ui/index.dart';
 
+import '../ui/login_screen.dart';
+
 /// 存放路由的配置
 class RouterName {
   static const String splash = 'splash';
@@ -24,7 +26,7 @@ class Router {
   static Map<String, WidgetBuilder> generateRoute() {
     Map<String, WidgetBuilder> routes = {
       RouterName.splash: (context) => new SplashScreen(),
-//      RouterName.login: (context) => new LoginScreen(),
+      RouterName.login: (context) => new LoginScreen(),
       RouterName.main: (context) => new MainScreen(),
     };
     return routes;

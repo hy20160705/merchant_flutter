@@ -16,7 +16,7 @@ class MainScreenState extends State<MainScreen>
   PageController _pageController = PageController();
 
   /// 当前选中的索引
-  int _selectedIndex = 0; // 当前选中的索引
+  int _selectedIndex = 0;
 
   /// tabs的名字
   final bottomBarTitles = ["首页", "商户", "邀请码", "我的"];

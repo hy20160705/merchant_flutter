@@ -36,13 +36,13 @@ class WanAndroidErrorInterceptor extends InterceptorsWrapper {
       data = json.decode(data);
     }
     if (data is Map) {
-      int code = data['code'] ??
+      var code = data['code'] ??
           Constants.STATUS_SUCCESS; // 表示如果data['errorCode']为空的话把 0赋值给errorCode
       String errorMsg = data['msg'] ?? '请求失败[$code]';
-      if (code == Constants.STATUS_SUCCESS) {
+      if (code == Constants.STATUS_SUCCESS||code==Constants.STATUS_SUCCESS.toString()) {
         // 正常
         return response;
-      } else if (code == Constants.UN_LOGIN /*未登录错误码*/) {
+      } else if (code == Constants.UN_LOGIN||code==Constants.UN_LOGIN.toString() /*未登录错误码*/) {
         User().clearUserInfo();
         dio.clear(); // 调用拦截器的clear()方法来清空等待队列。
         SPUtil.clear();
