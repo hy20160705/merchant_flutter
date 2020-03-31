@@ -8,6 +8,7 @@ import 'package:merchant_flutter/main.dart';
 import 'package:merchant_flutter/utils/index.dart';
 import 'package:merchant_flutter/utils/toast_util.dart';
 
+import '../../utils/index.dart';
 import '../index.dart';
 
 /// WanAndroid 统一接口返回格式错误检测
@@ -60,6 +61,7 @@ class WanAndroidErrorInterceptor extends InterceptorsWrapper {
   void goLogin() {
     /// 在拿不到context的地方通过navigatorKey进行路由跳转：
     /// https://stackoverflow.com/questions/52962112/how-to-navigate-without-context-in-flutter-app
+    printLong("goLogin");
     navigatorKey.currentState.pushNamed(RouterName.login);
   }
 }

@@ -68,15 +68,22 @@ class EnterpriseScreenState extends State<EnterpriseScreen>
         child: TabBarView(
           controller: _tabController,
           children:
-          tabList.map((item) {
+          tabList.asMap().keys.toList().map((item){
             return Stack(
               children: <Widget>[
-                EnterPriseScreenItem(item.key.toString()),
-//                EnterPriseScreenItem(2),
-//                EnterPriseScreenItem(3),
+                EnterPriseScreenItem(item),
               ],
             );
           }).toList(),
+//          tabList.map((item) {
+//            return Stack(
+//              children: <Widget>[
+//                EnterPriseScreenItem(_currentIndex),
+////                EnterPriseScreenItem(2),
+////                EnterPriseScreenItem(3),
+//              ],
+//            );
+//          }).toList(),
         ),
       ),
     ]));

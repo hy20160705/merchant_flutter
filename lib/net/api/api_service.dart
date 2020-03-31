@@ -2,6 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:merchant_flutter/model/req/shop_req.dart';
 import 'package:merchant_flutter/model/req/shop_search_req.dart';
 import 'package:merchant_flutter/model/shop_list_model.dart';
+import 'package:merchant_flutter/model/shop_search_list_model.dart';
 import 'package:merchant_flutter/net/api/apis.dart';
 import 'package:merchant_flutter/model/home_info_model.dart';
 import 'package:merchant_flutter/net/index.dart';
@@ -61,7 +62,7 @@ class ApiService {
   void getMyShopsBySearch(
       ShopSearchReq req, Function onSuccess, Function onFailed) async {
     dio.post(Apis.MY_SHOPS_SEARCH, data: req).then((response) {
-      onSuccess(ShopListModel.fromJson(response.data));
+      onSuccess(ShopSearchListModel.fromJson(response.data));
     }).catchError((onError) {
       onFailed(onError);
     });

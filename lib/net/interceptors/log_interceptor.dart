@@ -22,7 +22,7 @@ class LogInterceptors extends InterceptorsWrapper {
       stringBuffer.clear();
 
       if (options.data != null) {
-        printKV('body', options.data);
+        printKV('body', options.data.toString());
       }
       print('└—————————————————————End Request———————————————————————\n\n');
     }
