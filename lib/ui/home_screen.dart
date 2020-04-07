@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:merchant_flutter/model/home_info_model.dart';
+import 'package:merchant_flutter/model/resp/home_info_model.dart';
 import 'package:merchant_flutter/net/api/api_service.dart';
 import 'package:merchant_flutter/res/colors.dart';
 import 'package:merchant_flutter/utils/route_util.dart';

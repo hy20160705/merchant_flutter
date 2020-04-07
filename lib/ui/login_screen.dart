@@ -8,9 +8,9 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:merchant_flutter/common/common.dart';
 import 'package:merchant_flutter/common/router_config.dart';
-import 'package:merchant_flutter/model/base_model.dart';
+import 'package:merchant_flutter/model/resp/base_model.dart';
 import 'package:merchant_flutter/model/req/login_req.dart';
-import 'package:merchant_flutter/model/user_model.dart';
+import 'package:merchant_flutter/model/resp/user_model.dart';
 import 'package:merchant_flutter/res/colors.dart';
 import 'package:merchant_flutter/net/api/api_service.dart';
 import 'package:merchant_flutter/utils/index.dart';
@@ -365,6 +365,7 @@ class LoginScreenState extends State<LoginScreen> {
     return true;
   }
 
+  /// 获取设备信息
   Future<void> _getDeviceInfo() async {
     DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
     _androidInfo = await deviceInfo.androidInfo;

@@ -4,8 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:merchant_flutter/model/req/shop_req.dart';
 import 'package:merchant_flutter/model/req/shop_search_req.dart';
-import 'package:merchant_flutter/model/shop_list_model.dart';
-import 'package:merchant_flutter/model/shop_search_list_model.dart';
+import 'package:merchant_flutter/model/resp/shop_list_model.dart';
+import 'package:merchant_flutter/model/resp/shop_search_list_model.dart';
+import 'package:merchant_flutter/ui/base_screen.dart';
+import 'package:merchant_flutter/utils/route_util.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:merchant_flutter/widgets/refresh_helper.dart';
 import 'package:merchant_flutter/res/colors.dart';
@@ -16,7 +18,7 @@ import '../net/api/api_service.dart';
 import '../res/colors.dart';
 import '../utils/toast_util.dart';
 
-class EnterPriseScreenItem extends StatefulWidget {
+class EnterPriseScreenItem extends BaseScreen {
   int type;
 
   @override
@@ -25,12 +27,16 @@ class EnterPriseScreenItem extends StatefulWidget {
   }
 
   EnterPriseScreenItem(this.type);
+
+  @override
+  BaseScreenState<BaseScreen> attachState() {
+    return EnterPriseScreenItemState();
+  }
 }
 
 enum EOrderType { comprehensive, distance }
 
-class EnterPriseScreenItemState extends State<EnterPriseScreenItem>
-    with AutomaticKeepAliveClientMixin {
+class EnterPriseScreenItemState extends BaseScreenState<EnterPriseScreenItem> {
   RefreshController _refreshController =
       RefreshController(initialRefresh: true);
   List<dynamic> _data = new List();
@@ -45,117 +51,96 @@ class EnterPriseScreenItemState extends State<EnterPriseScreenItem>
   @override
   void initState() {
     super.initState();
-  }
-
-  /// 防止页面切换导致重绘页面
-  @override
-  bool get wantKeepAlive => true;
-
-  @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-//    _onRefresh();
+    setAppBarVisible(false);
   }
 
   @override
-  Widget build(BuildContext context) {
-    super.build(context);
+  AppBar attachAppBar() {
+    return AppBar(title: Text(""));
+  }
+
+  @override
+  Widget attachContentWidget(BuildContext context) {
     return Scaffold(
-      body: SmartRefresher(
-          controller: _refreshController,
-          enablePullDown: true,
-          enablePullUp: widget.type == 0,
-          header: MaterialClassicHeader(),
-          footer: RefreshFooter(),
-          onRefresh: _onRefresh,
-          onLoading: _onLoading,
-          child: CustomScrollView(
-            slivers: <Widget>[
-              SliverToBoxAdapter(
-                child: Card(
-                    elevation: 0.0,
-                    color: Colors.white,
-                    margin: EdgeInsets.only(left: 10.0, right: 10.0, top: 10.0),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(5.0)),
+        body: Column(children: <Widget>[
+      Card(
+          elevation: 0.0,
+          color: Colors.white,
+          margin: EdgeInsets.only(left: 10.0, right: 10.0, top: 10.0),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.all(Radius.circular(5.0)),
+          ),
+          clipBehavior: Clip.antiAlias,
+          child: Container(
+            height: 30.0,
+            margin: EdgeInsets.only(left: 10.0, right: 10.0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              mainAxisSize: MainAxisSize.max,
+              children: <Widget>[
+                Expanded(
+                  child: InkWell(
+                    child: Text(
+                      "综合",
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                          fontSize: 13.0,
+                          color: _isDistance
+                              ? Colours.color_333
+                              : Colours.color_FF714A),
                     ),
-                    clipBehavior: Clip.antiAlias,
-                    child: Container(
-                      height: 30.0,
-                      margin: EdgeInsets.only(left: 10.0, right: 10.0),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        mainAxisSize: MainAxisSize.max,
-                        children: <Widget>[
-                          Expanded(
-                            child: InkWell(
-                              child: Text(
-                                "综合",
-                                textAlign: TextAlign.center,
-                                style: TextStyle(
-                                    fontSize: 13.0,
-                                    color: _isDistance
-                                        ? Colours.color_333
-                                        : Colours.color_FF714A),
-                              ),
-                              onTap: () {
-                                _orderByType(EOrderType.comprehensive);
-                              },
-                            ),
-                          ),
-                          SizedBox(
-                            width: 1,
-                            height: 15.0,
-                            child: DecoratedBox(
-                              decoration: BoxDecoration(
-                                color: Colours.color_ccc,
-                              ),
-                            ),
-                          ),
-                          Expanded(
-                            child: InkWell(
-                              child: Text(
-                                "距离",
-                                textAlign: TextAlign.center,
-                                style: TextStyle(
-                                    fontSize: 13.0,
-                                    color: _isDistance
-                                        ? Colours.color_FF714A
-                                        : Colours.color_333),
-                              ),
-                              onTap: () {
-                                _orderByType(EOrderType.distance);
-                              },
-                            ),
-                          ),
-                        ],
-                      ),
-                    )),
-              ),
-              SliverList(
-                delegate: SliverChildBuilderDelegate(_itemView,
-                    childCount: _data.length),
-              )
-            ],
+                    onTap: () {
+                      _orderByType(EOrderType.comprehensive);
+                    },
+                  ),
+                ),
+                SizedBox(
+                  width: 1,
+                  height: 15.0,
+                  child: DecoratedBox(
+                    decoration: BoxDecoration(
+                      color: Colours.color_ccc,
+                    ),
+                  ),
+                ),
+                Expanded(
+                  child: InkWell(
+                    child: Text(
+                      "距离",
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                          fontSize: 13.0,
+                          color: _isDistance
+                              ? Colours.color_FF714A
+                              : Colours.color_333),
+                    ),
+                    onTap: () {
+                      _orderByType(EOrderType.distance);
+                    },
+                  ),
+                ),
+              ],
+            ),
           )),
-    );
+      Expanded(
+        child: SmartRefresher(
+            controller: _refreshController,
+            enablePullDown: true,
+            enablePullUp: widget.type == 0,
+            header: MaterialClassicHeader(),
+            footer: RefreshFooter(),
+            onRefresh: _onRefresh,
+            onLoading: _onLoading,
+            child: _addContent()),
+      )
+    ]));
   }
 
-  /// 下拉刷新
-  _onRefresh() {
-    print('_onRefresh status=${widget.type}');
-    print('_onRefresh _orderBy=$_orderBy');
-    if (widget.type == 0) {
-      _next = 0;
-      _getSearchShops();
-    } else {
-      _getMyShops();
-    }
-  }
-
-  ///上拉加载
-  _onLoading() {
-    _getMoreSearchShops();
+  @override
+  void onClickErrorWidget() {
+    showLoading().then((value) {
+      _onRefresh();
+    });
   }
 
   /// 构建itemView
@@ -300,6 +285,43 @@ class EnterPriseScreenItemState extends State<EnterPriseScreenItem>
             )));
   }
 
+  /// 构建签到状态样式
+  Widget _buildSign(item) {
+    if (item.ifSignIn) {
+      return Text(
+        '今日已签到',
+        style: TextStyle(color: Colours.color_999, fontSize: 12.0),
+      );
+    }
+    return InkWell(
+      onTap: () => _goToSign(item.shopId),
+      child: Text(
+        "未签到",
+        style: TextStyle(
+            color: Colours.color_FF714A,
+            fontSize: 12.0,
+            decoration: TextDecoration.underline),
+      ),
+    );
+  }
+
+  /// 下拉刷新
+  _onRefresh() {
+    print('_onRefresh status=${widget.type}');
+    print('_onRefresh _orderBy=$_orderBy');
+    if (widget.type == 0) {
+      _next = 0;
+      _getSearchShops();
+    } else {
+      _getMyShops();
+    }
+  }
+
+  ///上拉加载
+  _onLoading() {
+    _getMoreSearchShops();
+  }
+
   /// 获取今日和昨日下单列表
   void _getMyShops() {
     ShopReq shopReq = new ShopReq(
@@ -313,7 +335,9 @@ class EnterPriseScreenItemState extends State<EnterPriseScreenItem>
       setState(() {
         _data.addAll(res.data);
       });
+      showContent();
     }, (error) {
+      showError();
       _refreshController.refreshFailed();
       T.show(msg: error.message);
     });
@@ -336,20 +360,26 @@ class EnterPriseScreenItemState extends State<EnterPriseScreenItem>
         _data.clear();
         _data.addAll(res.data.records);
       });
+      showContent();
     }, (error) {
       _refreshController.refreshFailed();
       T.show(msg: error.message);
+      showError();
     });
   }
 
+// 全部 加载更多
   void _getMoreSearchShops() {
     print('_getMoreSearchShops _next=$_next');
+    if (_next <= 0) {
+      _refreshController.loadNoData();
+      return;
+    }
     ShopSearchReq shopReq = new ShopSearchReq(
         salerLatitude: "0.0",
         salerLongitude: "0.0",
         next: _next,
         orderBy: _orderBy);
-
     apiService.getMyShopsBySearch(shopReq, (ShopSearchListModel res) {
       _refreshController.loadComplete();
       Data data = res.data;
@@ -392,51 +422,21 @@ class EnterPriseScreenItemState extends State<EnterPriseScreenItem>
     _onRefresh();
   }
 
-  Widget _buildItem() {
-    return Container(
-      width: double.infinity,
-      height: double.infinity,
-      decoration: BoxDecoration(color: Colours.color_f1f4f6),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
-        mainAxisSize: MainAxisSize.max,
-        children: <Widget>[
-          Expanded(
-            flex: 1,
-            child: ListView.builder(
-              itemCount: _data.length,
-              itemBuilder: _itemView,
-              shrinkWrap: true,
-//                    physics: new AlwaysScrollableScrollPhysics(),
-            ),
-          )
-        ],
-      ),
-    );
-  }
-
-  /// 构建签到状态样式
-  Widget _buildSign(item) {
-    if (item.ifSignIn) {
-      return Text(
-        '今日已签到',
-        style: TextStyle(color: Colours.color_999, fontSize: 12.0),
-      );
-    }
-    return InkWell(
-      onTap: () => _goToSign(item.shopId),
-      child: Text(
-        "未签到",
-        style: TextStyle(
-            color: Colours.color_FF714A,
-            fontSize: 12.0,
-            decoration: TextDecoration.underline),
-      ),
-    );
-  }
-
   /// 跳转到签到页面
   _goToSign(int shopId) {
     debugPrint('跳转到签到页面$shopId');
+    RouteUtil.toWebView(context, '', 'https://www.baidu.com');
+  }
+
+  Widget _addContent() {
+    if (_data.length <= 0) {
+      return attachEmptyWidget();
+    } else {
+      return ListView.builder(
+        itemCount: _data.length,
+        itemBuilder: _itemView,
+        physics: new AlwaysScrollableScrollPhysics(),
+      );
+    }
   }
 }

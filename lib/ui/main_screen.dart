@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:merchant_flutter/ui/splash_screen.dart';
+import 'package:merchant_flutter/ui/webview_screen.dart';
 import 'package:merchant_flutter/utils/utils.dart';
 import 'package:merchant_flutter/ui/home_screen.dart';
 import 'package:merchant_flutter/ui/enterprise_screen.dart';
+
+import 'intive_screen.dart';
+import 'mine_screen.dart';
 
 class MainScreen extends StatefulWidget {
   @override
@@ -23,10 +27,11 @@ class MainScreenState extends State<MainScreen>
 
   /// 五个Tabs的内容
   var pages = <Widget>[
+//    WebViewScreen("https:www.baidu.com",false),
     HomeScreen(),
     EnterpriseScreen(),
-    SplashScreen(),
-    SplashScreen(),
+    InviteScreen(),
+    MineScreen(),
   ];
 
   @override

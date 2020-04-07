@@ -46,4 +46,10 @@ class UserInfo {
     data['partition'] = this.partition;
     return data;
   }
+
+  @override
+  String toString() {
+    return 'UserInfo{salerName: $salerName, inviteCode: $inviteCode, photoPath: $photoPath, partition: $partition}';
+  }
+
 }

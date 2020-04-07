@@ -46,6 +46,12 @@ dependencies:
   cupertino_icons: ^0.1.2
   device_info: ^0.4.2+1
   package_info: ^0.4.0
+  # 二维码生成 https://github.com/lukef/qr.flutter
+  qr_flutter: ^3.1.0
+  # webview_flutter https://github.com/flutter/plugins/tree/master/packages/webview_flutter
+  # webview_flutter: ^0.3.19+9
+  # WebView插件 https://pub.flutter-io.cn/packages/flutter_webview_plugin
+  flutter_webview_plugin: ^0.3.8
 
 dev_dependencies:
   flutter_test:

@@ -18,7 +18,7 @@ class Constants {
 }
 
 class AppConfig {
-  static const String appName = '菜小二';
+  static const String appName = '菜小二销售端';
   static const String version = '1.0.4';
   static const int versionCode = 5;
   static const bool isDebug = true;

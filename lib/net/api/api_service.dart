@@ -1,14 +1,14 @@
 import 'package:dio/dio.dart';
 import 'package:merchant_flutter/model/req/shop_req.dart';
 import 'package:merchant_flutter/model/req/shop_search_req.dart';
-import 'package:merchant_flutter/model/shop_list_model.dart';
-import 'package:merchant_flutter/model/shop_search_list_model.dart';
+import 'package:merchant_flutter/model/resp/shop_list_model.dart';
+import 'package:merchant_flutter/model/resp/shop_search_list_model.dart';
 import 'package:merchant_flutter/net/api/apis.dart';
-import 'package:merchant_flutter/model/home_info_model.dart';
+import 'package:merchant_flutter/model/resp/home_info_model.dart';
 import 'package:merchant_flutter/net/index.dart';
 import 'package:merchant_flutter/model/req/login_req.dart';
-import 'package:merchant_flutter/model/base_model.dart';
-import 'package:merchant_flutter/model/user_model.dart';
+import 'package:merchant_flutter/model/resp/base_model.dart';
+import 'package:merchant_flutter/model/resp/user_model.dart';
 
 ApiService _apiService = ApiService();
 

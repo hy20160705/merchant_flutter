@@ -4,12 +4,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:merchant_flutter/common/common.dart';
 import 'package:merchant_flutter/common/router_config.dart';
+import 'package:merchant_flutter/ui/login_screen.dart';
 import 'package:merchant_flutter/ui/main_screen.dart';
 import 'package:merchant_flutter/utils/sp_util.dart';
 import 'package:merchant_flutter/utils/theme_util.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:merchant_flutter/widgets/refresh_helper.dart';
-import 'package:merchant_flutter/ui/login_screen.dart';
 
 import 'net/dio_manager.dart';
 
@@ -20,7 +20,7 @@ final GlobalKey<NavigatorState> navigatorKey = new GlobalKey<NavigatorState>();
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await SPUtil.getInstance();
-  runApp(MyNewApp());
+  runApp(MyApp());
 
   if (Platform.isAndroid) {
     // 以下两行 设置android状态栏为透明的沉浸。写在组件渲染之后，
@@ -31,14 +31,14 @@ void main() async {
   }
 }
 
-class MyNewApp extends StatefulWidget {
+class MyApp extends StatefulWidget {
   @override
   State<StatefulWidget> createState() {
     return new MyAppState();
   }
 }
 
-class MyAppState extends State<MyNewApp> {
+class MyAppState extends State<MyApp> {
   /** 主题模式 */
   ThemeData themeData;
 
@@ -64,26 +64,21 @@ class MyAppState extends State<MyNewApp> {
           title: AppConfig.appName,
           // 去掉debug图标
           debugShowCheckedModeBanner: false,
+//          initialRoute: RouterName.splash,
           // 存放路由的配置
           routes: Router.generateRoute(),
           navigatorKey: navigatorKey,
           theme: themeData,
-          home: SPUtil.getString(Constants.TOKEN_KEY).isEmpty
-              ? LoginScreen()
-              : MainScreen(), // 启动页
+          home: _getHome(),
         ));
   }
 
   void _initAsync() async {
     await DioManager.init();
   }
-
-//  Widget _getHome() {
-//    var i = 0;
-//    debugPrint('Token===>${SPUtil.getString(Constants.TOKEN_KEY)}');
-//
-//    return SPUtil.getString(Constants.TOKEN_KEY).isEmpty
-//        ? LoginScreen()
-//        : MainScreen();
-//  }
+  Widget _getHome() {
+    return SPUtil.getString(Constants.TOKEN_KEY).isEmpty
+        ? LoginScreen()
+        : MainScreen();
+  }
 }

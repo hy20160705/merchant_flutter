@@ -1,6 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:merchant_flutter/common/common.dart';
-import 'package:merchant_flutter/model/user_model.dart';
+import 'package:merchant_flutter/model/resp/user_model.dart';
 import 'package:merchant_flutter/utils/sp_util.dart';
 
 class User {

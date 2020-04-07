@@ -1,4 +1,4 @@
-import 'package:merchant_flutter/model/base_model.dart';
+import 'package:merchant_flutter/model/resp/base_model.dart';
 
 /// next : -54769713
 /// records : [{"shopId":46242345,"shopAddress":"deserunt dolor nostrud proident","todaySalesVolume":"qui","shopName":"non consectetur","shopImage":"sit","businessTypeName":"in ea","contactsName":"c","ifOrder":false,"mobile":"qui eu dolore in"}]

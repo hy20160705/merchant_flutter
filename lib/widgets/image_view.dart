@@ -6,7 +6,7 @@ class ImageWidget extends StatefulWidget {
       {@required this.url,
       this.w,
       this.h,
-      this.defImagePath = "assets/images/ic_launcher_round.png"});
+      this.defImagePath = "assets/images/ic_mine_head_default.png"});
 
   final String url;
   final double w;

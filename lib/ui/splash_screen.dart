@@ -32,7 +32,7 @@ class SplashScreenState extends State<SplashScreen> {
   Widget build(BuildContext context) {
     ScreenAdapter.init(context);
     return new Image.asset(
-      "assets/images/ic_laucher.png",
+      "assets/images/launch_image.png",
       fit: BoxFit.fill,
     );
   }
